@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Portfolio - Priyanshu Kumar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Typing Effect Section -->
+  <div class="typing-container">
+    <div class="typing-header">
+      <span id="typing-text"></span>
+      <span class="cursor">|</span>
+    </div>
+  </div>
+
+  <!-- Main Terminal Section -->
+  <div class="terminal" id="terminal" style="display: none;">
+    <div class="header">Welcome to Priyanshu Kumar's Portfolio</div>
+
+    <!-- Terminal Content -->
+    <div class="content">
+      <div class="line">> Hi! My name is <span class="highlight">Priyanshu Kumar</span>.</div>
+      <div class="line">> Do you want to know more about me? If yes, type a command below:</div>
+      <div class="line">> Available commands: <span class="highlight">about, skills, projects, education, contact, review, clear</span></div>
+      
+      <!-- Terminal Command Area -->
+      <div class="command-area">
+        <span class="prompt">></span>
+        <input type="text" id="commandInput" autofocus />
+      </div>
+
+      <!-- Output Area -->
+      <div id="output"></div>
+
+      <!-- Review Form (Hidden by Default) -->
+      <div id="reviewFormContainer" style="display: none;">
+        <form id="reviewForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" required /><br /><br />
+
+          <label>Experience:</label>
+          <input type="radio" id="positive" name="experience" value="Positive" required />
+          <label for="positive">Positive</label>
+          <input type="radio" id="negative" name="experience" value="Negative" />
+          <label for="negative">Negative</label><br /><br />
+
+          <label for="comment">Comments:</label>
+          <textarea id="comment" rows="4" cols="50" required></textarea><br /><br />
+          
+          <button type="submit">Submit Feedback</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

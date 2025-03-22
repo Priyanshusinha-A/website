@@ -1,0 +1,55 @@
+/* Terminal Theme */
+body {
+  background-color: #000;
+  color: #00FF00;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 20px;
+}
+
+.terminal {
+  border: 2px solid #00FF00;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.header {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.line {
+  margin-bottom: 10px;
+}
+
+.highlight {
+  color: #FFF000;
+}
+
+/* Form Styling */
+form {
+  margin-top: 20px;
+}
+
+label {
+  color: #00FF00;
+}
+
+input, textarea, button {
+  font-family: 'Courier New', Courier, monospace;
+  color: #00FF00;
+  background-color: #000;
+  border: 1px solid #00FF00;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00FF00;
+  color: #000;
+}
