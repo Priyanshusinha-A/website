@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const comment = document.getElementById('comment').value;
 
     // Send data to backend using Fetch API
-    fetch('http://localhost:3000/send-feedback', {
+    fetch('https://my-portfolio-1-9b3k.onrender.com/send-feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, experience, comment })
