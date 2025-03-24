@@ -31,18 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const commands = {
     about: `
       > Hi, I'm <span class="highlight">Priyanshu Kumar Sinha</span>, a passionate Computer Science student currently pursuing my B.Tech from <span class="highlight">Black Diamond College of Engineering and Technology</span>. 
-      My journey in technology has fueled my curiosity, especially in the fields of <span class="highlight">Cybersecurity</span> and <span class="highlight">Web Development</span>.
+      My journey in technology has fueled my curiosity, especially in the fields of <span class="highlight">Cybersecurity</span> and <span class="highlight">Web Development</span>.<br/><br/>
 
       > I have hands-on experience in <span class="highlight">HTML</span>, <span class="highlight">CSS</span>, <span class="highlight">Java</span>, <span class="highlight">JavaScript</span>, <span class="highlight">C</span>, and <span class="highlight">C++</span>, along with a growing proficiency in AI technologies like <span class="highlight">OpenAI</span>. 
-      My expertise extends to <span class="highlight">Website Penetration Testing</span> and <span class="highlight">Bug Hunting</span>, where I enjoy identifying vulnerabilities and enhancing system security.
+      My expertise extends to <span class="highlight">Website Penetration Testing</span> and <span class="highlight">Bug Hunting</span>, where I enjoy identifying vulnerabilities and enhancing system security.<br/><br/>
 
-      > Beyond coding, I am deeply invested in exploring the dynamic world of cybersecurity, constantly seeking opportunities to strengthen my problem-solving skills. Whether it’s building interactive web applications or uncovering security flaws, I thrive on challenges that push the boundaries of my knowledge.
+      > Beyond coding, I am deeply invested in exploring the dynamic world of cybersecurity, constantly seeking opportunities to strengthen my problem-solving skills. Whether it’s building interactive web applications or uncovering security flaws, I thrive on challenges that push the boundaries of my knowledge.<br/><br/>
 
-      > Looking ahead, I aspire to contribute to the tech industry by creating secure, user-friendly solutions. I believe that technology should empower and protect users, and I’m excited to play a part in making the digital world safer.
+      > Looking ahead, I aspire to contribute to the tech industry by creating secure, user-friendly solutions. I believe that technology should empower and protect users, and I’m excited to play a part in making the digital world safer.<br/><br/>
 
-      > Feel free to connect with me if you'd like to collaborate or chat about <span class="highlight">web development</span>, <span class="highlight">cybersecurity</span>, or emerging <span class="highlight">AI innovations</span>!
-    `,
-    skills: "> HTML, CSS, JavaScript, C, C++, Java, Cyber Security, Data Analysis",
+      > Feel free to connect with me if you'd like to collaborate or chat about <span class="highlight">web development</span>, <span class="highlight">cybersecurity</span>, or emerging <span class="highlight">AI innovations</span>!    `,
+    skills: "> HTML, CSS, JavaScript, C, C++, Java, Cyber Security, Data Analysis",<br/><br/>
     projects: `
       > Projects:
       <ul>
