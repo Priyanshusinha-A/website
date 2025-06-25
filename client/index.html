@@ -2,59 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Terminal Portfolio - Priyanshu Kumar</title>
   <link rel="stylesheet" href="styles.css" />
+
 </head>
 <body>
+
+  <!-- Fullscreen video background -->
+  <video autoplay muted playsinline id="bg-video" style="position: fixed; top: 0; left: 0; min-width: 100vw; min-height: 100vh; object-fit: cover; z-index: -1; filter: brightness(1.2);">
+  <source src="./assets/videos/desktop.mp4" type="video/mp4" />
+</video>
+
+ 
+
   <!-- Typing Effect Section -->
-  <div class="typing-container">
-    <div class="typing-header">
-      <span id="typing-text"></span>
-      <span class="cursor">|</span>
+  <div class="typing-container glowing">
+   <div class="glitch-wrapper">
+  <div class="glitch-container" id="glitchText"></div>
+</div>
     </div>
-  </div>
+  
 
   <!-- Main Terminal Section -->
-  <div class="terminal" id="terminal" style="display: none;">
-    <div class="header">Welcome to Priyanshu Kumar's Portfolio</div>
+  <div class="terminal" id="terminal">
+    <div class="terminal-header">
+      <div class="terminal-buttons">
+        <span class="btn red"></span>
+        <span class="btn yellow"></span>
+        <span class="btn green"></span>
+      </div>
+      <div class="terminal-title">Welcome to Priyanshu Kumar's Portfolio</div>
+    </div>
 
-    <!-- Terminal Content -->
+    <div class="intro-text">
+      <div class="line">&gt; Hi! My name is Priyanshu Kumar.</div>
+      <div class="line">&gt; Do you want to know more about me? Type a command below.</div>
+      <div class="line">&gt; <strong>Available commands:</strong>
+        <span class="highlight">about</span> |
+        <span class="highlight">skills</span> |
+        <span class="highlight">projects</span> |
+        <span class="highlight">education</span> |
+        <span class="highlight">contact</span> |
+        <span class="highlight">review</span> |
+        <span class="highlight">clear</span>
+      </div>
+    </div>
+
+    <!-- Output & Command Input -->
     <div class="content">
-      <div class="line">> Hi! My name is <span class="highlight">Priyanshu Kumar</span>.</div>
-      <div class="line">> Do you want to know more about me? If yes, type a command below:</div>
-      <div class="line">> Available commands: <span class="highlight">about, skills, projects, education, contact, review, clear</span></div>
-      
-      <!-- Terminal Command Area -->
+      <div id="output"></div>
       <div class="command-area">
         <span class="prompt">></span>
-        <input type="text" id="commandInput" autofocus />
+        <input type="text" id="commandInput" autocomplete="off" autofocus />
+        <div id="suggestion-box" class="suggestion-box"></div>
       </div>
 
-      <!-- Output Area -->
-      <div id="output"></div>
-
-      <!-- Review Form (Hidden by Default) -->
+      <!-- Feedback Form -->
       <div id="reviewFormContainer" style="display: none;">
-        <form id="reviewForm">
-          <label for="name">Name:</label>
-          <input type="text" id="name" required /><br /><br />
+       <form  id="reviewForm" action="http://localhost:3000/send-feedback" method="post">
+  <label for="user">Alias / Name:</label>
+  <input type="text" id="user" name="user" placeholder="Anonymous, Neo, etc." required />
 
-          <label>Experience:</label>
-          <input type="radio" id="positive" name="experience" value="Positive" required />
-          <label for="positive">Positive</label>
-          <input type="radio" id="negative" name="experience" value="Negative" />
-          <label for="negative">Negative</label><br /><br />
+  <label for="first-impression">First Impression of the Portfolio:</label>
+  <select id="first-impression" name="first-impression" required>
+    <option value="">-- Select one --</option>
+    <option value="awesome">Awesome & unique</option>
+    <option value="professional">Clean & professional</option>
+    <option value="average">Okay, but room for improvement</option>
+    <option value="confusing">Confusing or hard to use</option>
+  </select>
 
-          <label for="comment">Comments:</label>
-          <textarea id="comment" rows="4" cols="50" required></textarea><br /><br />
-          
-          <button type="submit">Submit Feedback</button>
-        </form>
+  <label for="design-rating">Design Rating (1-5):</label>
+  <select id="design-rating" name="design-rating" required>
+    <option value="5">5 - Stunning</option>
+    <option value="4">4 - Very Good</option>
+    <option value="3">3 - Decent</option>
+    <option value="2">2 - Needs work</option>
+    <option value="1">1 - Poor</option>
+  </select>
+
+  <label for="feedback">Detailed Feedback:</label>
+  <textarea id="feedback" name="feedback" placeholder="What did you like? What could be improved? Be honest. Be brutal. Be helpful." required></textarea>
+
+  <label for="features">Any feature you wish it had?</label>
+  <textarea id="features" name="features" placeholder="Dark mode toggle? Chatbot? Easter eggs? Let me know."></textarea>
+
+  <label for="would-recommend">Would you recommend this portfolio to others?</label>
+  <select id="would-recommend" name="would-recommend" required>
+    <option value="">-- Select --</option>
+    <option value="yes">Yes, definitely</option>
+    <option value="maybe">Maybe</option>
+    <option value="no">No</option>
+  </select>
+
+  <input type="submit" value="UPLOAD FEEDBACK 🚀" />
+</form>
+
       </div>
     </div>
   </div>
 
+  <!-- Kali-style Terminal Popup -->
+  <div id="terminalPopup">
+    <div class="popup-header">
+      <div class="window-controls">
+        <span class="minimize"></span>
+        <span class="maximize"></span>
+        <span class="close" id="closePopup"></span>
+      </div>
+      <span class="title-text">kali@priyanshu-Portfolio:~$</span>
+    </div>
+    <div class="popup-body" id="popupBody"></div>
+    <div class="popup-footer">
+      <button class="close-terminal-btn" onclick="document.getElementById('terminalPopup').style.display='none'">Close</button>
+    </div>
+  </div>
+
+  <!-- Feedback Animation Popup -->
+  <div id="feedbackPopup" class="feedback-popup hidden">
+    <div class="popup-inner">
+      <span id="typingMessage" class="glitch-text"></span>
+    </div>
+  </div>
+<div class="contact"></div>
   <script src="script.js"></script>
 </body>
 </html>

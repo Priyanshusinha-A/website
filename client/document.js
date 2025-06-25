@@ -64,12 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
       item.style.cursor = 'pointer';
       item.addEventListener('click', () => {
         const type = item.getAttribute('data-type');
-        if (type === 'email') {
-          window.open('https://mail.google.com/mail/?view=cm&fs=1&to=priyanshusinhatt@gmail.com', '_blank');
-        } else if (type === 'linkedin') {
-          window.open('https://linkedin.com/in/priyanshu-kumar-6716642b6', '_blank');
-        } else if (type === 'github') {
-          window.open('https://github.com/Priyanshusinha-A', '_blank');
+        switch (type) {
+          case 'email':
+            window.open('https://mail.google.com/mail/?view=cm&fs=1&to=priyanshusinhatt@gmail.com', '_blank');
+            break;
+          case 'linkedin':
+            window.open('https://linkedin.com/in/priyanshu-kumar-6716642b6', '_blank');
+            break;
+          case 'github':
+            window.open('https://github.com/Priyanshusinha-A', '_blank');
+            break;
         }
       });
     });
@@ -101,9 +105,18 @@ document.addEventListener('DOMContentLoaded', function () {
     contact: {
       text: `
         <div class="contact-list">
-          <div class="contact-item" data-type="email">📧 <strong>Email</strong><br><span>Click to compose</span></div>
-          <div class="contact-item" data-type="linkedin">🔗 <strong>LinkedIn</strong><br><span>Priyanshu Kumar</span></div>
-          <div class="contact-item" data-type="github">💻 <strong>GitHub</strong><br><span>GitHub</span></div>
+          <div class="contact-item" data-type="email">
+            📧 <strong>Email</strong><br>
+            <span>Click to compose</span>
+          </div>
+          <div class="contact-item" data-type="linkedin">
+            🔗 <strong>LinkedIn</strong><br>
+            <span>Priyanshu Kumar</span>
+          </div>
+          <div class="contact-item" data-type="github">
+            💻 <strong>GitHub</strong><br>
+            <span>GitHub</span>
+          </div>
         </div>`
     },
     review: {
@@ -112,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
         popupBody.innerHTML = '';
         popupBody.appendChild(reviewFormContainer);
         reviewFormContainer.style.display = 'block';
-        setTimeout(() => reviewForm.scrollIntoView({ behavior: 'smooth' }), 100);
+        setTimeout(() => reviewForm.scrollIntoView({ behavior: 'smooth', block: 'end' }), 100);
         addToTerminal('> Review form opened. Fill it out and submit.');
       }
     },
@@ -199,15 +212,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   reviewForm.addEventListener('submit', e => {
     e.preventDefault();
-    const name = reviewForm.querySelector('#user').value;
-    const exp = reviewForm.querySelector('#first-impression').value;
-    const rating = reviewForm.querySelector('#design-rating').value;
-    const comm = reviewForm.querySelector('#feedback').value;
-    const features = reviewForm.querySelector('#features').value;
-    const recommend = reviewForm.querySelector('#would-recommend').value;
-
-    if (!name || !exp || !comm || !rating || !recommend) {
-      addToTerminal('> Please fill out all required fields before submitting.');
+    const name = reviewForm.querySelector('#name').value;
+    const exp = reviewForm.querySelector('input[name="experience"]:checked')?.value;
+    const comm = reviewForm.querySelector('#comment').value;
+    if (!name || !exp || !comm) {
+      addToTerminal('> Please fill out all fields before submitting.');
       return;
     }
 
@@ -227,35 +236,22 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }, 100);
 
-    (async () => {
-      try {
-        const res = await fetch('https://my-portfolio-1-9b3k.onrender.com/send-feedback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, experience: exp, rating, comment: comm, features, recommend })
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Something went wrong');
-
-        typingMessage.textContent = 'Thanks for your review!';
-        typingMessage.style.animation = 'none';
-        addToTerminal(`> Thank you, ${name}! Your ${exp.toLowerCase()} feedback has been sent.`);
-        reviewFormContainer.style.display = 'none';
-        reviewForm.reset();
-        setTimeout(() => feedbackPopup.classList.remove('show'), 2500);
-
-      } catch (err) {
-        console.error('Feedback submission error:', err.message);
-        typingMessage.textContent = 'Sorry! Server issue. We’ll fix it soon.';
-        typingMessage.style.animation = 'none';
-        addToTerminal('> Failed to send feedback. Please try again later.');
-        setTimeout(() => feedbackPopup.classList.remove('show'), 2500);
-      }
-    })();
+    fetch('https://my-portfolio-1-9b3k.onrender.com/send-feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, experience: exp, comment: comm })
+    })
+    .then(res => res.json())
+    .then(() => {
+      addToTerminal(`> Thank you, ${name}! Your ${exp.toLowerCase()} feedback has been sent.`);
+      reviewFormContainer.style.display = 'none';
+      reviewForm.reset();
+    })
+    .catch(() => {
+      addToTerminal('> Failed to send feedback. Please try again.');
+    });
   });
 
-  // ✅ FIXED: Move this here, not inside form submit
   closePopupButton?.addEventListener('click', () => {
     terminalPopup.style.display = 'none';
   });

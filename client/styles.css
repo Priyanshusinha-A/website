@@ -1,4 +1,4 @@
-/* Terminal Theme */
+/* ======= General Terminal Theme ======= */
 body {
   background-color: #000;
   color: #00FF00;
@@ -8,26 +8,177 @@ body {
 }
 
 .terminal {
+  background-color: rgba(0, 0, 0, 0.9);
   border: 2px solid #00FF00;
   padding: 20px;
   max-width: 800px;
-  margin: auto;
+  margin: 40px auto 20px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  color: #00FF00;
+}
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1; /* Behind everything */
+  filter: brightness(0.3); /* darken video to keep terminal readable */
+}
+
+#bg-video-desktop {
+  display: block;
+}
+
+#bg-video-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #bg-video-desktop {
+    display: none;
+  }
+  #bg-video-mobile {
+    display: block;
+  }
+}
+
+.video-box {
+  width: 90%;
+  max-width: 600px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  margin: 20px auto;
+  position: relative;
+}
+
+.video-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-desktop {
+  display: block;
+}
+
+.video-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .video-desktop {
+    display: none;
+  }
+  .video-mobile {
+    display: block;
+  }
 }
 
 .header {
-  font-weight: bold;
+  text-align: center;
+  color: #00FF00;
+  animation: glow 1.5s ease-in-out infinite alternate;
+  font-size: 1.5rem;
   margin-bottom: 20px;
 }
+.typing-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1000;
+  text-align: center;
+}
+
+.glitch-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+  white-space: nowrap;   /* Critical */
+  text-align: center;
+}
+
+.glitch-char {
+  display: inline;  /* Fixes vertical layout */
+  position: relative;
+}
+
+.glitch-char::before,
+.glitch-char::after {
+  content: attr(data-char);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+}
+
+.glitch-char::before {
+  color: red;
+  transform: translate(-2px, -2px);
+  animation: glitchRed 0.3s infinite;
+}
+
+.glitch-char::after {
+  color: blue;
+  transform: translate(2px, 2px);
+  animation: glitchBlue 0.3s infinite;
+}
+
+
+@keyframes glitchRed {
+  0% { transform: translate(-2px, -2px); }
+  50% { transform: translate(-4px, 0); }
+  100% { transform: translate(-3px, -2px); }
+}
+
+@keyframes glitchBlue {
+  0% { transform: translate(2px, 2px); }
+  50% { transform: translate(4px, 0); }
+  100% { transform: translate(3px, 3px); }
+}
+
+
 
 .line {
   margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 .highlight {
   color: #FFF000;
 }
 
-/* Form Styling */
+a {
+  color: #FF4500;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s, text-decoration 0.3s;
+  background-color: rgba(255, 69, 0, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+a:hover {
+  color: #FF6347;
+  text-decoration: underline;
+}
+
 form {
   margin-top: 20px;
 }
@@ -53,3 +204,428 @@ button:hover {
   background-color: #00FF00;
   color: #000;
 }
+
+.suggestion-box {
+  background: #000;
+  border: 1px solid #00FF00;
+  margin-top: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  color: #00FF00;
+  font-family: 'Courier New', Courier, monospace;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.suggestion {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.suggestion:hover,
+.suggestion.active {
+  background-color: #00FF00;
+  color: #000;
+}
+
+.command-area {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+#terminalPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 95%;
+  max-width: 600px;
+  background-color: #121212;
+  border-radius: 10px;
+  border: 2px solid #00ff00;
+  box-shadow: 0 0 25px #00ff00;
+  z-index: 10000;
+  overflow: hidden;
+  display: none;
+  animation: glitch-fade-in 0.5s ease-out forwards;
+}
+
+@keyframes glitch-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9) skewX(8deg);
+  }
+  25% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.02) skewX(-6deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.01) skewX(3deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1.005) skewX(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) skewX(0deg);
+  }
+}
+
+#terminalPopup.show {
+  display: block;
+}
+
+#terminalPopup .title-text {
+  animation: glitchColor 0.9s infinite;
+}
+
+
+.popup-body {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden; /* prevent horizontal scroll */
+  padding: 1rem;
+  font-family: monospace;
+  background-color: #1e1e1e;
+  color: #ccc;
+  box-sizing: border-box;
+  white-space: normal;    /* wrap long lines */
+  word-break: break-word;   /* break long words if needed */
+  line-height: 1.6;         /* improve readability */
+  font-size: 14px;
+}
+
+
+.popup-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+  background-color: #00ffae;
+  border-radius: 4px;
+}
+
+.terminal-header, .popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 8px 12px;
+  border-bottom: 2px solid #00ff00;
+}
+
+.terminal-buttons, .window-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-buttons .btn, .window-controls span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.btn.red, .window-controls .close { background-color: #ff5f56; }
+.btn.yellow, .window-controls .minimize { background-color: #f4bf4f; }
+.btn.green, .window-controls .maximize { background-color: #27c93f; }
+.window-controls .close { cursor: pointer; }
+
+.terminal-title, .title-text {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.popup-footer {
+  padding: 10px;
+  border-top: 2px solid #00ff00;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.close-terminal-btn {
+  background-color: transparent;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.close-terminal-btn:hover {
+  background-color: #00ff00;
+  color: #0d0d0d;
+}
+
+#reviewFormContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+
+#reviewFormContainer input[type="text"],
+#reviewFormContainer input[type="email"],
+#reviewFormContainer textarea {
+  background-color: #000;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  padding: 4px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#reviewFormContainer textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+#reviewFormContainer .submit-btn {
+  background-color: #00ff00;
+  color: #0d0d0d;
+  border: none;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 5px;
+}
+
+#reviewFormContainer .submit-btn:hover {
+  background-color: #00cc00;
+}
+
+#reviewFormContainer input[type="radio"] {
+  accent-color: #00ff00;
+  margin-right: 4px;
+}
+
+#reviewFormContainer .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#terminal {
+  font-family: monospace;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  display: none;
+  position: relative;
+}
+
+#output {
+  white-space: pre-wrap; /* Ensures whitespace is respected and text wraps */
+  word-wrap: break-word; /* Breaks long words and wraps them */
+  overflow-x: hidden; /* Hides horizontal scrolling */
+  max-width: 100%; /* Ensures it doesn't overflow horizontally */
+}
+
+#commandInput {
+  width: 100%;
+  padding: 8px;
+  background-color: #111;
+  color: white;
+  border: none;
+  outline: none;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+#suggestion-box {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  width: 200px;
+  background-color: #333;
+  border-radius: 5px;
+  padding: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 999;
+  color: white;
+}
+
+.suggestion {
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.suggestion.active {
+  background-color: #555;
+}
+
+#reviewForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.form-footer {
+  padding: 10px 0 0;
+  background-color: #0d0d0d;
+  text-align: right;
+}
+
+#reviewForm input,
+#reviewForm textarea {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  background-color: #222;
+  color: white;
+  border: 1px solid #444;
+}
+
+#reviewForm label {
+  display: block;
+  margin-top: 10px;
+  color: #0f0;
+}
+
+#reviewForm button {
+  padding: 5px 10px;
+  background-color: #0f0;
+  color: black;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: block;
+}
+
+#reviewForm button:hover {
+  background-color: #0c0;
+}
+
+/* ======= Feedback Animation Popup ======= */
+.feedback-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #0d0d0d;
+  border: 2px solid #00ff00;
+  padding: 2rem;
+  z-index: 99999;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 0 15px #00ff00;
+  animation: fadeIn 0.3s ease-in-out;
+  text-align: center;
+  display: none;
+  width: 300px;
+  max-width: 90%;
+}
+
+.feedback-popup.show {
+  display: block;
+}
+
+.glitch-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 1.2rem;
+  overflow: hidden;
+  border-right: 2px solid #00ff00;
+  animation: blink 1s infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8) translate(-50%, -50%); }
+  to { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+}
+
+/* ======= Contact List Styles ======= */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 10px 0;
+}
+
+.contact-item {
+  padding: 10px;
+  border: 1px solid #00ff00;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: #111;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+}
+
+.contact-item:hover {
+  background-color: #00ff00;
+  color: #000;
+}
+.contact-item span {
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+ form {
+      max-width: 700px;
+      margin: auto;
+      background-color: #000;
+      border: 1px solid #00ff00;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.5rem;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background-color: #111;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      font-family: inherit;
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    input[type="submit"] {
+      background-color: #00ff00;
+      color: #000;
+      font-weight: bold;
+      margin-top: 2rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #00cc00;
+    }
