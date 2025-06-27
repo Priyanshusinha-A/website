@@ -23,7 +23,8 @@ app.use(cors());
 app.use(express.json());
 
 // ✅ Serve static frontend files
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.resolve(__dirname, '../../client')));
+
 
 // ✅ SPA support: serve index.html for unmatched frontend routes
 app.get('/', (req, res) => {
