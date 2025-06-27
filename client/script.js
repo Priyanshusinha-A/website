@@ -81,8 +81,19 @@ document.addEventListener('DOMContentLoaded', function () {
     typeInPopup(text, 'popupTypingArea', 10, attachContactHandlers);
   }
 
+  function addToTerminal(text) {
+    const newLine = document.createElement('div');
+    newLine.className = 'line';
+    newLine.textContent = text;
+    output.appendChild(newLine);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  let suggestions = [];
+  let selectedIndex = -1;
+
   const commands = {
-     about: {
+    about: {
       text: `> Hey there! I'm <span class="highlight">Priyanshu Kumar Sinha</span>, a driven and enthusiastic Computer Science undergraduate at <span class="highlight">Black Diamond College of Engineering and Technology</span>. I'm not just learning tech — I'm <em>living</em> it.<br><br>
       > My journey in technology is fueled by a relentless curiosity and a genuine passion for <span class="highlight">Cybersecurity</span> and <span class="highlight">Full Stack Web Development</span>. From designing clean, user-focused interfaces to diving deep into system vulnerabilities, I thrive on turning ideas into impactful digital solutions.<br><br>
       > 🛡️ With hands-on experience in <span class="highlight">Penetration Testing</span> and <span class="highlight">Bug Hunting</span>, I don’t just build websites — I secure them. I’ve sharpened my skills in <span class="highlight">HTML</span>, <span class="highlight">CSS</span>, <span class="highlight">JavaScript</span>, <span class="highlight">Java</span>, <span class="highlight">C</span>, and <span class="highlight">C++</span>, while exploring the exciting potential of <span class="highlight">AI technologies</span> like <span class="highlight">OpenAI</span>.<br><br>
@@ -128,17 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
       text: `Available commands:<br>about<br>skills<br>projects<br>education<br>contact<br>review<br>clear<br>help`
     }
   };
-
-  function addToTerminal(text) {
-    const newLine = document.createElement('div');
-    newLine.className = 'line';
-    newLine.textContent = text;
-    output.appendChild(newLine);
-    output.scrollTop = output.scrollHeight;
-  }
-
-  let suggestions = [];
-  let selectedIndex = -1;
 
   commandInput.addEventListener('input', () => {
     const val = commandInput.value.trim().toLowerCase();
@@ -219,17 +219,16 @@ document.addEventListener('DOMContentLoaded', function () {
       typingMessage.textContent += msg[i++];
       if (i === msg.length) {
         clearInterval(interval);
-        setTimeout(() => {
-          typingMessage.textContent = 'Thanks for your review!';
-          typingMessage.style.animation = 'none';
-          setTimeout(() => feedbackPopup.classList.remove('show'), 2500);
-        }, 1500);
       }
     }, 100);
 
     (async () => {
       try {
-        const res = await fetch('https://my-portfolio-1-9b3k.onrender.com/send-feedback', {
+        const endpoint = window.location.origin.includes('127.0.0.1')
+          ? 'http://localhost:3000/send-feedback'
+          : `${window.location.origin}/send-feedback`;
+
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, experience: exp, rating, comment: comm, features, recommend })
@@ -244,7 +243,6 @@ document.addEventListener('DOMContentLoaded', function () {
         reviewFormContainer.style.display = 'none';
         reviewForm.reset();
         setTimeout(() => feedbackPopup.classList.remove('show'), 2500);
-
       } catch (err) {
         console.error('Feedback submission error:', err.message);
         typingMessage.textContent = 'Sorry! Server issue. We’ll fix it soon.';
@@ -255,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })();
   });
 
-  // ✅ FIXED: Move this here, not inside form submit
   closePopupButton?.addEventListener('click', () => {
     terminalPopup.style.display = 'none';
   });
