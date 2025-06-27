@@ -27,8 +27,8 @@ app.use(express.static(path.resolve(__dirname, '../../client')));
 
 
 // ✅ SPA support: serve index.html for unmatched frontend routes
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 app.get('*', (req, res) => {
