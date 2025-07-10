@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
   const terminal = document.getElementById('terminal');
   const commandInput = document.getElementById('commandInput');
@@ -11,6 +12,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const feedbackPopup = document.getElementById('feedbackPopup');
   const typingMessage = document.getElementById('typingMessage');
   const glitchText = document.getElementById('glitchText');
+
+  // ✅ New: Get the background video
+  const bgVideo = document.getElementById('bg-video');
+
+  // ✅ New: Switch to mobile video if needed
+  if (window.innerWidth <= 768 && bgVideo) {
+    bgVideo.src = './assets/videos/mobile.mp4';
+    bgVideo.load();
+    bgVideo.play().catch(e => {
+      console.log('Autoplay might be blocked:', e);
+    });
+  }
 
   const introText = "WELCOME TO MY PORTFOLIO";
   let introIndex = 0;
