@@ -1,34 +1,37 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Validate required env vars
+// ✅ Validate environment variables
 if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
   console.error("❌ Missing EMAIL_USER or EMAIL_PASS in environment variables!");
   process.exit(1);
 }
 
-// ✅ Trust proxy (optional)
+// Optional: Trust proxy for platforms like Render
 app.set('trust proxy', true);
 
-// ✅ Security headers
+// Middleware
 app.use(helmet());
-
-// ✅ Allow JSON request bodies
+app.use(cors());
 app.use(express.json());
 
-// ✅ Allow CORS only for Live Server origin
-app.use(cors({
-  origin: 'http://127.0.0.1:5500', // <-- Live Server default
-  methods: ['GET', 'POST'],
-}));
+app.use(express.static(path.join(__dirname, '..', 'client')));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
+});
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));
+});
 
-// ✅ Nodemailer transporter
+
+// ✅ Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -71,12 +74,12 @@ app.post('/send-feedback', async (req, res) => {
   }
 });
 
-// ✅ Catch-all for bad API routes
+// ✅ Catch-all for API 404
 app.use('/api/*', (req, res) => {
   res.status(404).json({ message: 'API endpoint not found.' });
 });
 
 // ✅ Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
