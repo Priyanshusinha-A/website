@@ -55,11 +55,32 @@
         <div id="suggestion-box" class="suggestion-box"></div>
       </div>
 
-      <!-- Feedback Form -->
+      <!-- Hidden Feedback Form Container -->
       <div id="reviewFormContainer" style="display: none;">
-        <form id="reviewForm" method="post">
-          <!-- (Form contents unchanged) -->
-          <!-- Same as yours — no edits needed here -->
+        <form id="reviewForm">
+          <label for="user">Name *</label>
+          <input type="text" id="user" name="user" placeholder="Your Name" required />
+
+          <label for="first-impression">First Impression *</label>
+          <input type="text" id="first-impression" name="first-impression" placeholder="Your first impression" required />
+
+          <label for="design-rating">Design Rating (1-5) *</label>
+          <input type="number" id="design-rating" name="design-rating" min="1" max="5" required />
+
+          <label for="feedback">Feedback *</label>
+          <textarea id="feedback" name="feedback" placeholder="Your feedback" required></textarea>
+
+          <label for="features">Features You'd Like to See</label>
+          <input type="text" id="features" name="features" placeholder="Optional" />
+
+          <label for="would-recommend">Would You Recommend? *</label>
+          <select id="would-recommend" name="would-recommend" required>
+            <option value="">-- Select --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+
+          <button type="submit">Submit Feedback</button>
         </form>
       </div>
     </div>
@@ -95,9 +116,8 @@
 
   <div class="contact"></div>
 
-  <!-- Main script -->
+  <!-- Mobile Video Swap Script -->
   <script>
-    // Script to swap video for mobile
     const video = document.getElementById('bg-video');
     const source = document.getElementById('videoSource');
 
@@ -106,6 +126,8 @@
       video.load();
     }
   </script>
+
+  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
